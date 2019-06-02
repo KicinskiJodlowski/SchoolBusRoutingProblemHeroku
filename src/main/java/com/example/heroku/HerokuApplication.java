@@ -97,20 +97,29 @@ public class HerokuApplication {
         return "hello";
     }
 
-
     @Bean
-    public DataSource dataSource() throws SQLException, URISyntaxException {
+    public DataSource dataSource() throws SQLException {
         if (dbUrl == null || dbUrl.isEmpty()) {
             return new HikariDataSource();
         } else {
             HikariConfig config = new HikariConfig();
-            URI dbUri = new URI(System.getenv("DATABASE_URL"));
-
-            String username = dbUri.getUserInfo().split(":")[0];
-            String password = dbUri.getUserInfo().split(":")[1];
-            String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
             config.setJdbcUrl(dbUrl);
             return new HikariDataSource(config);
         }
     }
+//    @Bean
+//    public DataSource dataSource() throws SQLException, URISyntaxException {
+//        if (dbUrl == null || dbUrl.isEmpty()) {
+//            return new HikariDataSource();
+//        } else {
+//            HikariConfig config = new HikariConfig();
+//            URI dbUri = new URI(System.getenv("DATABASE_URL"));
+//
+//            String username = dbUri.getUserInfo().split(":")[0];
+//            String password = dbUri.getUserInfo().split(":")[1];
+//            String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+//            config.setJdbcUrl(dbUrl);
+//            return new HikariDataSource(config);
+//        }
+//    }
 }
